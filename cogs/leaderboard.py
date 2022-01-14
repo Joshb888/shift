@@ -1,13 +1,8 @@
 from discord import *
-from discord.abc import User
-from discord.activity import create_activity
-from discord.channel import TextChannel
 from discord.ext import commands
 from discord_slash import cog_ext
 from discord_slash.context import ComponentContext, SlashContext
-from discord_slash.utils.manage_commands import create_option
-from discord.utils import get
-import os, json, datetime, time
+import os, json, time
 
 from discord_slash.utils import manage_components
 from discord_slash.model import ButtonStyle
@@ -70,8 +65,8 @@ class Leaderboard(commands.Cog, name="leaderboard"):
 
             try:
                 os.remove(f"./leaderboard/{ctx.guild.id}/leaderboard.txt") # Try to remove the leaderboard if one exists, if not just catch error
-            except :
-                pass
+            except Exception as e :
+                print(f"{e} When trying to remove old LB, must not exist or smth")
             
 
             # Now write the leaderboard

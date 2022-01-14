@@ -3,7 +3,6 @@ from discord.ext import commands
 from discord_slash import cog_ext
 from discord_slash.context import SlashContext
 from discord_slash.utils.manage_commands import create_option
-from discord.utils import get
 import os, json, datetime
 
 from api import *

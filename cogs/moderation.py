@@ -1,12 +1,10 @@
 from discord.abc import User
-from discord.activity import create_activity
-from discord.channel import TextChannel
 from discord.ext import commands
 from discord_slash import cog_ext
 from discord_slash.context import ComponentContext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 from discord.utils import get
-import os, json, datetime, time
+import json, datetime
 
 from discord_slash.utils import manage_components
 from discord_slash.model import ButtonStyle
@@ -148,7 +146,7 @@ class Moderation(commands.Cog, name="moderation"):
         if not await isServerSetup(ctx, langPack):
             return
 
-        msg = await ctx.send(langPack["Are you sure you want to wipe ALL server stats?"], components=[action_row], hidden=True)
+        await ctx.send(langPack["Are you sure you want to wipe ALL server stats?"], components=[action_row], hidden=True)
 
         button_ctx: ComponentContext = await manage_components.wait_for_component(self.client, components=action_row)
         
@@ -196,14 +194,10 @@ class Moderation(commands.Cog, name="moderation"):
                 description=f"{user.mention}, your shift has been ended by {ctx.author.mention}, it lasted {elapsed_time} minutes!",
                 color=Colour.blue
             )
-            if elapsed_time == 999:
-                embed.set_footer(text="999 #lljw")
             log_embed = Embed(
                 description=f"{user.mention}'s shift has ended, it lasted {elapsed_time} minutes!\nThey have {current_stats} minutes of shift credit.",
                 color=Colour.blue
             )
-            if elapsed_time == 999 or int(current_stats) == 999:
-                log_embed.set_footer(text="999 #lljw")
             logging_channel = self.client.get_channel(config["logs_channel"])
             try:
                 role = get(ctx.guild.roles, id= config["shift_role"])

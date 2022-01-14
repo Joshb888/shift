@@ -3,7 +3,7 @@ from discord_slash import cog_ext
 from discord_slash.context import SlashContext
 from discord_slash.utils.manage_commands import create_option
 from discord.utils import get
-import os, json, time
+import json
 
 from api import *
 
@@ -87,15 +87,11 @@ class ShiftLogging(commands.Cog, name="shift_logging"):
                     description=langPack["Your shift has ended, it lasted &time& minutes!"].replace("&time&", str(time_elapsed)),
                     color=Colour.green
                 )
-                if int(time_elapsed / 60) == 999:
-                    embed.set_footer(text="999 #lljw")
 
                 log_embed = Embed(
                     description=f"{ctx.author.mention}'s shift has ended, it lasted {str(time_elapsed)} minutes!\nThey have {str(current_stats)} minutes of shift credit.",
                     color=Colour.blue
                 )
-                if int(time_elapsed / 60) == 999 or int(current_stats) == 999:
-                    log_embed.set_footer(text="999 #lljw")
 
                 logging_channel = self.client.get_channel(config["logs_channel"])
                 await ctx.send(embed=embed, hidden=True)
@@ -137,8 +133,6 @@ class ShiftLogging(commands.Cog, name="shift_logging"):
                     #description=f"{target.mention}'s shift has been running for {int(time_elapsed / 60)} minutes!",
                     color=Colour.green
                 )
-                if int(time_elapsed / 60) == 999:
-                    embed.set_footer(text="999 #lljw")
 
                 await ctx.send(embed=embed, hidden=True)
             else:  # doesnt exist
@@ -180,8 +174,6 @@ class ShiftLogging(commands.Cog, name="shift_logging"):
                     description=langPack["The user &user& has &time& minutes logged! (&time_hrs& hours)"].replace("&user&", target.mention).replace("&time&", str(stats)).replace("&time_hrs&", str(round((stats / 60), 1))),
                     color=Colour.green
                 )
-                if int(stats) == 999:
-                    embed.set_footer(text="999 #lljw")
                 await ctx.send(embed=embed, hidden=True)
             else:
                 embed = Embed(
@@ -191,7 +183,4 @@ class ShiftLogging(commands.Cog, name="shift_logging"):
                 await ctx.send(embed=embed, hidden=True)
 
 def setup(client):
-    try:
-        client.add_cog(ShiftLogging(client))
-    except Exception as e:
-        print(e.with_traceback())
+    client.add_cog(ShiftLogging(client))

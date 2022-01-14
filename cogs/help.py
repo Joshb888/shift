@@ -1,8 +1,6 @@
 from discord import Embed
 from discord.ext import commands
 from discord_slash import cog_ext, SlashContext
-from discord.utils import get
-import os, json
 
 from api import *
 
